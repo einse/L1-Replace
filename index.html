@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Л1 Подстановка</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="container" ng-app="myApp" ng-controller="myCtrl">
+      <h1>Шифрование методом подстановки</h1>
+      <h2>Функция шифрования</h2>
+      <div ng-init="names=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]">
+        <table class="table">
+          <tr>
+            <th ng-repeat="x in names">
+              {{ x }}
+            </th>
+          </tr>
+          <tr>
+            <th ng-repeat="x in names" style="font-weight:bold">
+              {{ ((x * 3 + 2) % 32 )}}
+            </th>
+          </tr>
+          <tr>
+            <th ng-repeat="x in names">
+              {{ x + 16 }}
+            </th>
+          </tr>
+          <tr>
+            <th ng-repeat="x in names" style="font-weight:bold">
+              {{ ((x + 16) * 3 + 2) % 32 }}
+            </th>
+          </tr>
+        </table>
+      </div>
+      <h2>Поле для ввода исходного сообщения</h2>
+      <textarea ng-model="rawInput" placeholder="Начните печатать здесь. Можно вводить любые символы, но учитываться будут только 0 и 1." autofocus></textarea>
+      <h2>Сообщения</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Оригинал</th>
+            <th>Шифровка</th>
+            <th>Расшифровка</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <span class="hidden">{{ pureInput = raw2pure(rawInput) }}</span>
+              {{ pureInput2 = separated2pure(separatedInput) }}
+            </th>
+            <th>{{ pureOutput = separated2pure(separatedOutput) }}</th>
+            <th>{{ pureRepeat = separated2pure(separatedRepeat) }}</th>
+          </tr>
+          <tr>
+            <th>{{ separatedInput = pure2separated(pureInput) }}</th>
+            <th>{{ separatedOutput = friendly2separated(friendlyOutput) }}</th>
+            <th>{{ separatedRepeat = friendly2separated(friendlyRepeat) }}</th>
+          </tr>
+          <tr>
+            <th>{{ friendlyInput = separated2friendly(separatedInput) }}</th>
+            <th>{{ friendlyOutput = e(friendlyInput) }}</th>
+            <th>{{ friendlyRepeat = d(friendlyOutput) }}</th>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Поле для ввода зашифрованного сообщения <button style="font-weight:normal;margin-left:1rem" ng-click="copyAndPaste()">Вставить из предыдущего пункта</button></h2>
+      <textarea ng-model="testInput" placeholder="Вставьте сюда зашифрованный текст (комбинацию нулей и единиц, без посторонних символов)." autofocus></textarea>
+      <h2>Расшифровка</h2>
+      <p>{{ testOutput = decode(testInput) }}&nbsp;</p>
+      <p>{{ testOutput2 = pure2separated(testOutput) }}&nbsp;</p>
+      <p>{{ testOutput3 = separated2friendly(testOutput2) }}&nbsp;</p>
+    </div>
+  </body>
+</html>
